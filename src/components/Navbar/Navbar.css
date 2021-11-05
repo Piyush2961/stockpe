@@ -1,0 +1,46 @@
+.stockpe_logo{
+    width:150px; 
+}
+
+.nav_btn{
+    background: #7fe0e9;
+    box-shadow: inset 0px 3.99946px 3.99946px rgba(0, 0, 0, 0.25);
+    border-radius: 11px;
+    padding-left: 20px;
+    margin-left: 10px;
+  }
+
+  ul {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    background: linear-gradient(269.94deg, rgba(30, 113, 237, 0.58) -2.74%, rgba(30, 113, 237, 0) 89.44%);
+    border-radius: 0px 100px 1000px 0px;
+  }
+  
+  .nav-link {
+    color: #f1f1f1 !important;
+  }
+  
+  .nav-link:hover {
+    color: aqua !important;
+  }
+  
+  .menu li{
+    padding: 2px 30px 5px 15px;
+  }
+ 
+  @media only screen and (max-width: 600px) {
+    .stockpe_logo{
+        width:100px;
+        margin:25px 25px;
+       
+    }
+    .nav_btn{
+        background: #33E6F6;
+        box-shadow: inset 0px 3.99946px 3.99946px rgba(0, 0, 0, 0.25);
+        border-radius: 11px;
+        margin-top: 10px;
+        padding-left: 20px;
+        margin-left: 0px;
+       }
+  }
