@@ -1,7 +1,60 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './Carousel.css'
+import firebase from '../../firebase'
 
 const Carousel = () => {
+
+    const [mobile, setMobile] = useState(0);
+    const [showres, setShowres] = useState(false);
+    const [showerror, setShowerror] = useState(false);
+
+    const handleChange =(e) => {
+       const {value} = e.target;
+        setMobile(value);
+    }
+    const configureCaptcha = ()=>{ 
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+            'size': 'invisible',
+            'callback': (response) => {
+              // reCAPTCHA solved, allow signInWithPhoneNumber.
+              onSignInSubmit();
+            },
+            defaultCountry: 'IN'
+          });
+    }
+
+    const onSignInSubmit = (e) => {
+        e.preventDefault();
+        configureCaptcha();
+        const phoneNumber = "+91"+mobile;
+        console.log(phoneNumber);
+
+        const appVerifier = window.recaptchaVerifier;
+      firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+     .then((confirmationResult) => {
+    
+      window.confirmationResult = confirmationResult;
+        console.log(confirmationResult);
+      console.log('otp has been sent');
+      setShowres(true);
+     
+    }).catch((error) => {
+     
+      console.log(error);
+      setShowerror(true);
+    });
+    
+    }
+
+     const showStyle={
+        display: 'block',
+        color: '#fff',
+     }
+     const closeStyle ={
+            display: 'none',
+            color: '#fff',
+        
+     }
     return (
         <div class="section mt-sm-5">
         <div class="container-fluid">
@@ -29,18 +82,19 @@ const Carousel = () => {
                         </div>
                     </div>
                     <div class="form_area" id="myDIV">
-                        <form class="d-flex" id="contactForm">
+                        <form class="d-flex" id="contactForm" onSubmit={onSignInSubmit}>
+                            <div id="sign-in-button"></div>
                             <input type="number" class="form-control number " id="inlineFormInputName2"
-                                placeholder="Phone number" pattern="[6789][0-9]{9}" required />
+                                placeholder="Phone number" name="mobile" pattern="[6789][0-9]{9}" onChange={handleChange} required />
                                 
                             <button type="submit" class="btn btn-primary nav_btn" onclick="myFunction()">Get
                                 invite</button>
                         </form>
                     </div>
-                        <div style={{display: "none", color: "#fff"}} class="form_area" id="my2">
+                        <div style={showres? showStyle:closeStyle} class="form_area" id="my2">
                             <div class="d-flex">
-                                <p>Thank You 😁. We will notify you once your invite is ready and served hot and
-                                    fresh to your sms inbox.</p>
+                              { !showerror? <p>Thank You 😁. We will notify you once your invite is ready and served hot and fresh to your sms inbox.</p>:<p>Captcha Already Verified. Please reload to add new Number</p>}
+                                
                             </div>
                         </div>
                     </div>
